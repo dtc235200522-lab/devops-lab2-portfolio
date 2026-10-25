@@ -1,0 +1,83 @@
+BƯỚC 2: Automation — Script Tự động hóa Đầu tiên
+--------------------------------------------------
+2.1 Giải pháp cho Bài toán setup môi trường:
+- Vấn đề thủ công: Mỗi khi có thành viên mới join team phải hướng dẫn cài đặt thủ công từng bước (Node.js, dependencies, cấu hình môi trường), tốn 2 giờ/người và dễ phát sinh lỗi phiên bản.
+
+- Giải pháp tự động hóa: 
+  1. Đóng gói toàn bộ ứng dụng và môi trường runtime (Node.js 18) vào Docker Container qua Dockerfile.
+  2. Viết kịch bản tự động hóa (file `setup-dev-env.sh`) thực hiện chuỗi lệnh kiểm tra, dọn dẹp container cũ, build image và run container hoàn toàn tự động.
+
+- Kết quả: Thành viên mới chỉ cần clone mã nguồn về máy và chạy 1 dòng lệnh duy nhất:
+  bash setup-dev-env.sh
+  Toàn bộ môi trường và ứng dụng sẽ tự động khởi chạy thành công tại http://localhost:3000 trong dưới 2 phút.
+
+- Bài học DevOps #1: Bất cứ việc gì làm thủ công ≥ 2 lần → HÃY VIẾT SCRIPT TỰ ĐỘNG HÓA!
+
+BƯỚC 4:
+4.1
+========================================================================================
+                         DEVOPS TOOLCHAIN MAP
+========================================================================================
+
+    +--------------+    +--------------+    +--------------+    +--------------+    +--------------+
+    |     PLAN     |    |     CODE     |    |    BUILD     |    |    DEPLOY    |    |   MONITOR    |
+    +--------------+    +--------------+    +--------------+    +--------------+    +--------------+
+    | - GitHub     |    | - Git        |    | - Maven      |    | - Docker     |    | - Prometheus |
+    |   Projects   |    | - VS Code    |    | - Postman    |    | - Terraform  |    | - Grafana    |
+    | - Jira       |    |              |    | - SonarQube  |    | - AWS        |    |              |
+    +--------------+    +--------------+    +--------------+    +--------------+    +--------------+
+           |                   |                   |                   |                   |
+           +-------------------+-------------------+-------------------+-------------------+
+                                                   |
+                                 +-----------------------------------+
+                                 |  CI/CD: GitHub Actions / Jenkins  |
+                                 +-----------------------------------+
+========================================================================================
+4.2
+4.2 BẢNG CÔNG CỤ DEVOPS ĐÃ HỌC
+----------------------------------------------------------------------------------------
+Giai đoạn  | Công cụ           | Đã dùng ở lab nào? | Mục đích
+----------------------------------------------------------------------------------------
+Plan       | GitHub Projects   | —                  | Quản lý task, roadmap
+Code       | Git + GitHub      | Lab 1, 5           | Quản lý mã nguồn
+Code       | VS Code           | Lab 2              | IDE
+Build      | Maven             | Lab 7              | Build Java project
+Test       | Postman/Newman    | Lab 6              | Kiểm thử API
+Test       | SonarQube         | Lab 6, 7           | Phân tích mã nguồn tĩnh
+Test       | OWASP ZAP         | Lab 6              | Kiểm thử bảo mật
+Deploy     | Docker            | Lab 2, 7, 8        | Container hóa ứng dụng
+Deploy     | Terraform         | Lab 3              | Infrastructure as Code
+Deploy     | AWS               | Lab 3              | Cloud infrastructure
+CI/CD      | GitHub Actions    | Lab 1              | Tự động deploy web
+CI/CD      | Jenkins           | Lab 7              | CI/CD pipeline
+Artifact   | Nexus             | Lab 7              | Quản lý artifact
+----------------------------------------------------------------------------------------
+
+BƯỚC 5:
+5.1 TỰ ĐÁNH GIÁ DEVOPS MATURITY
+----------------------------------------------------------------------------------------
+Nguyên tắc  | 1 (Yếu)               | 3 (Trung bình)       | 5 (Xuất sắc)          | Điểm của bạn
+----------------------------------------------------------------------------------------
+Culture     | Đổ lỗi cho nhau       | Ngồi chung team      | Cùng chịu trách nhiệm| 2/5
+Automation  | Deploy thủ công 100%  | CI/CD 1 số project   | Pipeline tự động 100%| 2/5
+Lean        | Setup mất > 1 ngày    | Có script/Docker     | 1 lệnh sẵn sàng env  | 3/5
+Measurement | Không biết app chạy   | Monitoring cơ bản    | Dashboard real-time  | 3/5
+Sharing     | Không document        | Có wiki nội bộ       | Code review & share  | 2/5
+----------------------------------------------------------------------------------------
+TỔNG ĐIỂM   |                                                                     | 12/25
+----------------------------------------------------------------------------------------
+
+5.2 KẾ HOẠCH CẢI THIỆN DEVOPS MATURITY
+----------------------------------------------------------------------------------------
+1. Hành động 1 (Tối ưu Measurement):
+   Tích hợp hệ thống giám sát và cảnh báo thời gian thực (Prometheus + Grafana) để theo 
+   dõi sức khỏe hệ thống và phát hiện sự cố tự động thay vì kiểm tra thủ công.
+
+2. Hành động 2 (Tối ưu Automation):
+   Tự động hóa 100% quy trình kiểm thử API (Postman/Newman) và quét lỗ hổng bảo mật 
+   (SonarQube, OWASP ZAP) tích hợp sẵn trong CI/CD pipeline (GitHub Actions/Jenkins).
+
+3. Hành động 3 (Tối ưu Culture & Sharing):
+   Duy trì quy trình Code Review bắt buộc trên Pull Request, chuẩn hóa tài liệu hướng 
+   dẫn (Wiki nội bộ) và tổ chức các buổi chia sẻ kiến thức (Post-mortem) sau sự cố.
+----------------------------------------------------------------------------------------

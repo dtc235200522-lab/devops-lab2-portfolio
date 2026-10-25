@@ -1,0 +1,13 @@
+#!/bin/bash
+echo "=== DEVOPS TOOLCHAIN CHECK ==="
+echo ""
+printf "%-10s " "VS Code:"
+code --version 2>/dev/null | head -1 || echo "❌ Not installed"
+printf "%-10s " "Git:"
+git --version 2>/dev/null || echo "❌ Not installed"
+printf "%-10s " "Docker:"
+docker --version 2>/dev/null || echo "❌ Not installed"
+printf "%-10s " "Node.js:"
+node --version 2>/dev/null || echo "⚠️  Optional"
+echo ""
+echo "Toolchain ready for DevOps!"
